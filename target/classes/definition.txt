@@ -1,0 +1,26 @@
+curl -H 'Content-Type: application/json' -XPUT 'http://localhost:9200/records' -d '{
+  "mappings": {
+    "record": {
+      "properties": {
+        "date": {
+          "type":   "date"
+        },
+        "id": {
+          "type":   "keyword"
+        },
+        "status": {
+          "type":   "keyword"
+        },
+        "type": {
+          "type":   "keyword"
+        },
+        "relation": {
+          "type": "join",
+          "relations": {
+            "parent": "child"
+          }
+        }
+      }
+    }
+  }
+}'

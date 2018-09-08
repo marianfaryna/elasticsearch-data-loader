@@ -1,0 +1,57 @@
+# Get all documents
+
+curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+            "query" : {
+                "match_all": {}
+            }
+}'
+
+# Hour aggregation
+
+curl -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+  "size": 0,
+  "aggs": {
+    "unique": {
+      "terms": {
+        "field": "domain"
+      },
+      "aggs": {
+        "per_day" : {
+          "date_histogram" : {
+              "field" : "date",
+              "interval" : "1d",
+              "format" : "yyyy-MM-dd"
+          }
+        }
+      }
+    }
+  }
+}'
+
+# Get all child documents
+
+curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+    "query": {
+        "has_parent" : {
+            "parent_type" : "message",
+            "query" : {
+                "match_all": {}
+            }
+        }
+    }
+}'
+
+# Get all child documents
+
+# 6.3.2. parent-child has child query
+
+curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+    "query": {
+        "has_child" : {
+            "type" : "datapoint",
+            "query" : {
+                "match_all": {}
+            }
+        }
+    }
+}'

@@ -1,0 +1,5 @@
+com/elasticsearch/Util.class
+com/elasticsearch/index/RecordBuilder.class
+com/elasticsearch/domain/Type.class
+com/elasticsearch/domain/Status.class
+com/elasticsearch/Main.class
