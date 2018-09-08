@@ -1,6 +1,6 @@
 # Get all documents
 
-curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/records/_search?pretty' -d '{
             "query" : {
                 "match_all": {}
             }
@@ -8,12 +8,12 @@ curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoint
 
 # Hour aggregation
 
-curl -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+curl -H 'Content-Type: application/json' -XGET 'http://localhost:9200/records/_search?pretty' -d '{
   "size": 0,
   "aggs": {
     "unique": {
       "terms": {
-        "field": "domain"
+        "field": "type"
       },
       "aggs": {
         "per_day" : {
@@ -30,10 +30,10 @@ curl -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints
 
 # Get all child documents
 
-curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/records/_search?pretty' -d '{
     "query": {
         "has_parent" : {
-            "parent_type" : "message",
+            "parent_type" : "parent",
             "query" : {
                 "match_all": {}
             }
@@ -45,10 +45,10 @@ curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoint
 
 # 6.3.2. parent-child has child query
 
-curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/datapoints/_search?pretty' -d '{
+curl  -H 'Content-Type: application/json' -XGET 'http://localhost:9200/records/_search?pretty' -d '{
     "query": {
         "has_child" : {
-            "type" : "datapoint",
+            "type" : "child",
             "query" : {
                 "match_all": {}
             }
